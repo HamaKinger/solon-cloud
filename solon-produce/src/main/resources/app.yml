@@ -1,0 +1,13 @@
+server:
+  port: 8081
+  #  host: 192.168.0.102 # 默认使用访问地址
+  contextPath: "!/freedom-produce/"
+
+
+solon:
+  app:
+    name: "freedom-produce"
+    group: 'produce'
+  logLink:
+    prefix: produce_
+    length: 16

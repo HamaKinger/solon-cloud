@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <conversionRule conversionWord="tags" converterClass="ch.qos.logback.solon.SolonTagsConverter" />
+
+    <solonProperty name="APP_NAME" source="solon.app.name"
+                   defaultValue="solon" />
+
+    <!--控制台日志pattern-->
+    <!-- 日志的格式
+        %d          表示日期
+        %thread     表示线程名
+        %-5level    日志级别，从左显示5个字符宽度
+        %logger{56} 日志打印所属的类名，限定长度56个字符
+        %msg        日志消息
+        %n          是换行符
+        颜色设置    %颜色（以上参数），例如，%highlight(%-5level)
+        支持颜色    "%black", "%red", "%green","%yellow","%blue", "%magenta","%cyan", "%white", "%gray", "%boldRed",
+                    "%boldGreen", "%boldYellow", "%boldBlue", "%boldMagenta""%boldCyan", "%boldWhite" and "%highlight"
+    -->
+    <solonProperty name="CONSOLE_LOG_PATTERN" source="solon.logging.appender.console.pattern"
+                   defaultValue="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%boldYellow(%thread)] - [%X{TRACE_ID}] %boldGreen(%logger{10})(%F:%L\) %msg%n"/>
+
+    <!--控制台日志级别-->
+    <solonProperty name="CONSOLE_LOG_LEVEL" source="solon.logging.appender.console.level"
+                   defaultValue="INFO" />
+
+    <!--日志文件后缀-->
+    <solonProperty name="FILE_LOG_EXTENSION" source="solon.logging.appender.file.extension"
+                   defaultValue=".log" />
+    <!--日志名称-->
+    <solonProperty name="FILE_LOG_NAME" source="solon.logging.appender.file.name"
+                   defaultValue="logs/${APP_NAME}" />
+    <!--滚动日志文件-->
+    <solonProperty name="FILE_LOG_ROLLING" source="solon.logging.appender.file.rolling"
+                   defaultValue="${FILE_LOG_NAME}_%d{yyyy-MM-dd}_%i${FILE_LOG_EXTENSION}" />
+
+    <!--日志记录pattern-->
+    <solonProperty name="FILE_LOG_PATTERN" source="solon.logging.appender.file.pattern"
+                   defaultValue="%-5level %d{yyyy-MM-dd HH:mm:ss.SSS} [-%t][*%X{traceId}]%tags[%logger{20}]: %n%msg%n" />
+
+    <!--文件日志记录等级-->
+    <solonProperty name="FILE_LOG_LEVEL" source="solon.logging.appender.file.level"
+                   defaultValue="INFO" />
+    <!--历史日志保存时长-->
+    <solonProperty name="FILE_LOG_MAX_HISTORY" source="solon.logging.appender.file.maxHistory"
+                   defaultValue="7" />
+    <!--日志文件大小-->
+    <solonProperty name="FILE_LOG_MAX_FILE_SIZE" source="solon.logging.appender.file.maxFileSize"
+                   defaultValue="10 MB" />
+    <!--默认记录器级别配置-->
+    <solonProperty name="LOGGER_ROOT_LEVEL" source="solon.logging.logger.root.level"
+                   defaultValue="INFO" />
+
+
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${CONSOLE_LOG_LEVEL}</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${FILE_LOG_LEVEL}</level>
+        </filter>
+
+        <File>${FILE_LOG_NAME}.log</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${FILE_LOG_ROLLING}</fileNamePattern>
+            <maxHistory>${FILE_LOG_MAX_HISTORY}</maxHistory>
+            <maxFileSize>${FILE_LOG_MAX_FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="Solon" class="ch.qos.logback.solon.SolonAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
+
+    <root>
+        <level value="${LOGGER_ROOT_LEVEL}" />
+        <appender-ref ref="Console"/>
+        <appender-ref ref="File"/>
+        <appender-ref ref="Solon"/>
+    </root>
+
+</configuration>

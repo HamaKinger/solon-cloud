@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  #  host: 192.168.0.102 # 默认使用访问地址
+  contextPath: "!/freedom-demo/"
+
+
+solon:
+  app:
+    name: "freedom-demo"
+    group: 'demo'
+
+  logLink:
+    prefix: demo_
+    length: 16

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.noear</groupId>
+        <artifactId>solon-parent</artifactId>
+        <version>2.8.4</version>
+        <relativePath />
+    </parent>
+    <groupId>com.freedom</groupId>
+    <artifactId>solon-cloud</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <description>solon-cloud</description>
+    <properties>
+        <java.version>17</java.version>
+        <lombook.version>1.18.28</lombook.version>
+        <solon.version>2.8.4</solon.version>
+        <hutool.version>5.8.26</hutool.version>
+        <netty.version>4.1.97.Final</netty.version>
+        <common.lang.version>3.13.0</common.lang.version>
+        <guava.version>33.0.0-jre</guava.version>
+        <solon.free.version>1.0</solon.free.version>
+    </properties>
+    <modules>
+        <module>solon-demo</module>
+        <module>solon-produce</module>
+    </modules>
+
+</project>
