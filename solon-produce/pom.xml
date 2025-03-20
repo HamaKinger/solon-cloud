@@ -22,13 +22,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.noear</groupId>
-            <artifactId>water-solon-cloud-plugin</artifactId>
-            <version>${solon.version}</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
         </dependency>
         <dependency>
             <groupId>com.freedom</groupId>
-            <artifactId>solon-loglink-plug</artifactId>
+            <artifactId>solon-loglink-plugin</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
