@@ -20,7 +20,7 @@ public class BatchQueryUtils {
     public static <T,R> List<R> batchQuery(BatchQueryFunction<T,R> batchQueryFunction, List<T> t) throws Exception {
         ThreadPoolUtils poolUtils = ThreadPoolUtils.get();
         AtomicReference<List<R>> listAtomicReference = new AtomicReference<>(Lists.newArrayList());
-        CompletableFuture<Void> completableFuture = CompletableFuture.allOf(t.stream().map(id -> CompletableFuture.runAsync(() -> {
+        CompletableFuture.allOf(t.stream().map(id -> CompletableFuture.runAsync(() -> {
             R r = batchQueryFunction.accept(id);
             List<R> jsonObjects = listAtomicReference.get();
             jsonObjects.add(r);
@@ -28,8 +28,7 @@ public class BatchQueryUtils {
         },poolUtils).exceptionally(ex -> {
             log.error("Async operation failed",ex);
             throw new RuntimeException(ex);
-        })).toArray(CompletableFuture[]::new));
-        completableFuture.get();
+        })).toArray(CompletableFuture[]::new)).join();
         log.info("list size: {}", listAtomicReference.get().size());
         shutdownThreadPool(poolUtils);
         return listAtomicReference.get();
